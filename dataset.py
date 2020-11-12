@@ -21,12 +21,12 @@ import torch
 from torch.utils.data.dataset import Dataset
 
 
-def rand_uniform_strong(min, max):
-    if min > max:
-        swap = min
-        min = max
-        max = swap
-    return random.random() * (max - min) + min
+def rand_uniform_strong(min_v, max_v):
+    if min_v > max_v:
+        swap = min_v
+        min_v = max_v
+        max_v = swap
+    return random.random() * (max_v - min_v) + min_v
 
 
 def rand_scale(s):
@@ -36,12 +36,12 @@ def rand_scale(s):
     return 1. / scale
 
 
-def rand_precalc_random(min, max, random_part):
-    if max < min:
-        swap = min
-        min = max
-        max = swap
-    return (random_part * (max - min)) + min
+def rand_precalc_random(min_v, max_v, random_part):
+    if max_v < min_v:
+        swap = min_v
+        min_v = max_v
+        max_v = swap
+    return (random_part * (max_v - min_v)) + min_v
 
 
 def fill_truth_detection(bboxes, num_boxes, classes, flip, dx, dy, sx, sy, net_w, net_h):
