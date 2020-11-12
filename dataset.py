@@ -243,11 +243,9 @@ class Yolo_dataset(Dataset):
     def __init__(self, label_path, cfg, train=True):
         super(Yolo_dataset, self).__init__()
         if cfg.mixup == 2:
-            print("cutmix=1 - isn't supported for Detector")
-            raise
+            raise ValueError("cutmix=1 - isn't supported for Detector")
         elif cfg.mixup == 2 and cfg.letter_box:
-            print("Combination: letter_box=1 & mosaic=1 - isn't supported, use only 1 of these parameters")
-            raise
+            raise ValueError("Combination: letter_box=1 & mosaic=1 - isn't supported, use only 1 of these parameters")
 
         self.cfg = cfg
         self.train = train
