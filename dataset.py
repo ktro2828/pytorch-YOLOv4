@@ -456,18 +456,13 @@ def get_image_id(filename: str) -> int:
 
 
 if __name__ == "__main__":
-    import argparse
     import matplotlib.pyplot as plt
     from cfg import Cfg
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--dir', type=str,
-                        required=True, help='path of dataset')
-    args = parser.parse_args()
-
     random.seed(2020)
     np.random.seed(2020)
-    Cfg.dataset_dir = args.dir
+    # Cfg.dataset_dir = '/mnt/e/Dataset'
+    Cfg.dataset_dir = ''
     dataset = Yolo_dataset(Cfg.train_label, Cfg)
     for i in range(100):
         sample_img, sample_bboxes = dataset.__getitem__(i)
