@@ -20,5 +20,5 @@ log
 data/outcome
 
 # ADD @ktro2828
-*.txt
+data/test_sample
 data/dbb_sample
