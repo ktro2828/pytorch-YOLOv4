@@ -375,6 +375,7 @@ def train(model, device, config, epochs=5, batch_size=1, save_cp=True, log_step=
 
                 images = images.to(device=device, dtype=torch.float32)
                 bboxes = bboxes.to(device=device)
+                print(bboxes.shape)
 
                 bboxes_pred = model(images)
                 loss, loss_xy, loss_wh, loss_obj, loss_cls, loss_l2 = criterion(bboxes_pred, bboxes)
