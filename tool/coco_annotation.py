@@ -12,13 +12,30 @@
 '''
 import json
 from collections import defaultdict
-from tqdm import tqdm
 import os
 
+import argparse
+from tqdm import tqdm
+
+
+parser = argparse.ArgumentParser(description='Create .txt file for training',
+                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+parser.add_argument('-json', '--json_path', type=str,
+                    help='Target json directory path')
+parser.add_argument('-imgdir', '--img_dir', type=str,
+                    help='Target image directory path')
+parser.add_argument('-o', '--output_path', type=str,
+                    default='../data/train.txt', help='Target output .txt file path')
+
+args = parser.parse_args()
+
 """hyper parameters"""
-json_file_path = '../data/mscoco2017/annotations/instances_val2017.json'
-images_dir_path = 'data/mscoco2017/val2017/'
-output_path = '../data/train.txt'
+# json_file_path = 'E:/Dataset/mscoco2017/annotations/instances_train2017.json'
+# images_dir_path = 'mscoco2017/train2017/'
+json_file_path = args.json_path
+images_dir_path = args.img_dir
+output_path = args.output_path 
 
 """load json file"""
 name_box_id = defaultdict(list)
