@@ -611,7 +611,7 @@ if __name__ == "__main__":
     logging.info(f'Using device {device}')
 
     if cfg.use_darknet_cfg:
-        model = Darknet(cfg.cfgfile)
+        model = Darknet(cfg.cfgfile, cfg.classes)
     else:
         model = Yolov4(cfg.pretrained, n_classes=cfg.classes)
 

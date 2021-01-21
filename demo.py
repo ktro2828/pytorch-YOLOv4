@@ -22,7 +22,7 @@ import argparse
 """hyper parameters"""
 use_cuda = True
 
-def detect_cv2(cfgfile, weightfile, imgfile):
+def detect_cv2(cfgfile, weightfile, imgfile, num_classes):
     import cv2
     m = Darknet(cfgfile)
 
@@ -56,9 +56,9 @@ def detect_cv2(cfgfile, weightfile, imgfile):
     plot_boxes_cv2(img, boxes[0], savename='predictions.jpg', class_names=class_names)
 
 
-def detect_cv2_camera(cfgfile, weightfile):
+def detect_cv2_camera(cfgfile, weightfile, num_classes):
     import cv2
-    m = Darknet(cfgfile)
+    m = Darknet(cfgfile, num_classes)
 
     m.print_network()
     m.load_weights(weightfile)
@@ -100,10 +100,10 @@ def detect_cv2_camera(cfgfile, weightfile):
     cap.release()
 
 
-def detect_skimage(cfgfile, weightfile, imgfile):
+def detect_skimage(cfgfile, weightfile, imgfile, num_classes):
     from skimage import io
     from skimage.transform import resize
-    m = Darknet(cfgfile)
+    m = Darknet(cfgfile, num_classes)
 
     m.print_network()
     m.load_weights(weightfile)
@@ -112,7 +112,6 @@ def detect_skimage(cfgfile, weightfile, imgfile):
     if use_cuda:
         m.cuda()
 
-    num_classes = m.num_classes
     if num_classes == 20:
         namesfile = 'data/voc.names'
     elif num_classes == 80:
@@ -144,6 +143,9 @@ def get_args():
     parser.add_argument('-imgfile', type=str,
                         default='./data/mscoco2017/train2017/190109_180343_00154162.jpg',
                         help='path of your image file.', dest='imgfile')
+    parser.add_argument('-namesfile', type=str,
+                        default='data/coco.names',
+                        help='path of names file.', dest=namesfile)
     args = parser.parse_args()
 
     return args
@@ -151,10 +153,13 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
+    with open(args.namesfile, 'r') as f:
+        names = f.readlines()
+    num_classes = len(names)
     if args.imgfile:
-        detect_cv2(args.cfgfile, args.weightfile, args.imgfile)
+        detect_cv2(args.cfgfile, args.weightfile, args.imgfile, num_classes)
         # detect_imges(args.cfgfile, args.weightfile)
         # detect_cv2(args.cfgfile, args.weightfile, args.imgfile)
         # detect_skimage(args.cfgfile, args.weightfile, args.imgfile)
     else:
-        detect_cv2_camera(args.cfgfile, args.weightfile)
+        detect_cv2_camera(args.cfgfile, args.weightfile, num_classes)

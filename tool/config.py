@@ -2,7 +2,7 @@ import torch
 from tool.torch_utils import convert2cpu
 
 
-def parse_cfg(cfgfile):
+def parse_cfg(cfgfile, n_classes):
     blocks = []
     fp = open(cfgfile, 'r')
     block = None
@@ -18,8 +18,14 @@ def parse_cfg(cfgfile):
             block = dict()
             block['type'] = line.lstrip('[').rstrip(']')
             # set default value
-            if block['type'] == 'convolutional':
+            if block['type'] == 'net':
+                block['max_batches'] = n_classes * 2000
+                block['steps'] = str(int(0.8*n_classes*2000)) + ',' + str(int(0.9*n_classes*2000))
+            elif block['type'] == 'convolutional':
                 block['batch_normalize'] = 0
+                block['filters'] = 3 * (5 + n_classes)
+            elif block['type'] == 'yolo':
+                block['classes'] = n_classes
         else:
             key, value = line.split('=')
             key = key.strip()
