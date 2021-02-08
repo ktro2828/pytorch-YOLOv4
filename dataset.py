@@ -453,9 +453,11 @@ def get_image_id(filename: str) -> int:
     # lv = lv.replace("level", "")
     # no = f"{int(no):04d}"
     # return int(lv+no)
-    print("You could also create your own 'get_image_id' finction.")
+    print("You could also create your own 'get_image_id' function.")
+    # print(filename)
     parts = filename.split('/')
     id = int(parts[-1][0:-4])
+    # print(id)
     return id
 
 
