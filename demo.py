@@ -144,6 +144,7 @@ def get_args():
     parser.add_argument('-imgfile', type=str,
                         default='./data/mscoco2017/train2017/190109_180343_00154162.jpg',
                         help='path of your image file.', dest='imgfile')
+    parser.add_argument('-cpu', type=bool, default=False, help='indicates whether use cuda', dest='cpu')
     args = parser.parse_args()
 
     return args
@@ -151,6 +152,8 @@ def get_args():
 
 if __name__ == '__main__':
     args = get_args()
+    if args.cpu:
+        use_cuda = False
     if args.imgfile:
         detect_cv2(args.cfgfile, args.weightfile, args.imgfile)
         # detect_imges(args.cfgfile, args.weightfile)
